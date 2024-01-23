@@ -63,9 +63,8 @@ export async function requireUser() {
 	}
 
 	// user is not logged in
-	const redirectUri = window.location.href;
 	const loginUrl = keycloak.createLoginUrl({
-		redirectUri,
+		redirectUri: window.location.origin + window.location.pathname,
 	});
 
 	throw redirect(loginUrl);
