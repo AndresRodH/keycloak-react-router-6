@@ -1,30 +1,50 @@
-# React + TypeScript + Vite
+# Keycloak + React Router 6 data apis
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the source code that's referenced in my [blog post](https://andresrodriguez.dev/posts/keycloak-react-router-6)
 
-Currently, two official plugins are available:
+## Getting started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Dependencies are installed with Bun, but you can use any package manager you want -- just delete the `bun.lockb` file.
 
-## Expanding the ESLint configuration
+You will also need access to a Keycloak instance. I set up a docker-compose file and a script to set up something quick for local development. If you already have a local Keycloak instance, you can skip this step and start [setting up the app](#setting-up-the-environment).
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Set up Keycloak
 
-- Configure the top-level `parserOptions` property like this:
+In order to set up a local Keycloak instance for development, you will need to have Docker installed. The setup is fairly simple:
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```bash
+bun setup
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+This just calls `docker compose up -d`. You can check the `docker-compose.yml` file and update the environment variables if you want to.
+
+Once the innstance is up and running, you can access it at `http://localhost:8080`. The admin credentials are `admin`/`admin` or whatever combination you may have set up in `docker-compose.yml`. You will need to do the following:
+
+1. Create a new realm
+2. Set up a new client
+   2.1. Set the redirect URI to `http://localhost:5173/*`
+3. Create a new user
+
+### Setting up the environment
+
+Copy the `.env.template` file and fill up the values for `VITE_KEYCLOAK_REALM` and `VITE_KEYCLOAK_CLIENT_ID` with the values you set up in Keycloak. If you have set up Keycloak using the script in this repo, the `VITE_KEYCLOAK_URL` should be `http://localhost:8080`.
+
+> [!TIP]
+> You do not have to use the local Keycloak instance. If you already have a Keycloak instance set up, you can use that one. If you are using the local Keycloak instance and update the `ports` entry in the `docker-compose.yml` file, make sure that the URL in the `VITE_KEYCLOAK_URL` variable is updated accordingly.
+
+### Running the app
+
+1. Install dependencies
+   ```bash
+   bun install
+   # or yarn
+   # or npm install
+   # or pnpm install
+   ```
+2. Run the app
+   ```bash
+   bun dev
+   # or yarn dev
+   # or npm run dev
+   # or pnpm dev
+   ```
