@@ -1,10 +1,9 @@
 import { Form, NavLink, Outlet, useLoaderData } from "react-router-dom";
-import { getLoginUrl, getUserProfile, logout } from "../lib/auth";
+import { getUserProfile, logout } from "../lib/auth";
 
 export async function loader() {
 	const profile = await getUserProfile();
-
-	return profile ? { profile } : { loginUrl: await getLoginUrl() };
+	return { profile };
 }
 
 export async function action() {
@@ -28,21 +27,10 @@ export default function Root() {
 				}}
 			>
 				<span>ACME, inc.</span>
-				{data.profile ? (
-					<>
-						Hello, {data.profile.username}!
-						<Form method="POST">
-							<button type="submit">Logout</button>
-						</Form>
-					</>
-				) : (
-					<a
-						href={data.loginUrl}
-						style={{ color: "white", textDecoration: "underline" }}
-					>
-						Login
-					</a>
-				)}
+				Hello, {data.profile.username}!
+				<Form method="POST">
+					<button type="submit">Logout</button>
+				</Form>
 			</div>
 			<div style={{ display: "flex", gap: "8px", marginTop: 8 }}>
 				<NavLink to="/public">Public</NavLink>
