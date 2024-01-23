@@ -22,7 +22,8 @@ Once the innstance is up and running, you can access it at `http://localhost:808
 
 1. Create a new realm
 2. Set up a new client
-   2.1. Set the redirect URI to `http://localhost:5173/*`
+   > [!NOTE]
+   > Set the redirect URI to `http://localhost:5173/*`, or wherever your app is running.
 3. Create a new user
 
 ### Setting up the environment
