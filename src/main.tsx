@@ -7,6 +7,11 @@ import Root, {
 } from "./routes/root";
 import Public from "./routes/public";
 import Protected, { loader as protectedLoader } from "./routes/protected";
+import { keycloak } from "./lib/auth";
+
+await keycloak.init({
+	onLoad: "login-required",
+});
 
 const router = createBrowserRouter([
 	{

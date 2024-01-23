@@ -1,8 +1,8 @@
 import { useLoaderData } from "react-router-dom";
-import { requireUser } from "../lib/auth";
+import { getUserProfile } from "../lib/auth";
 
 export async function loader() {
-	const profile = await requireUser();
+	const profile = await getUserProfile();
 
 	return { profile };
 }
